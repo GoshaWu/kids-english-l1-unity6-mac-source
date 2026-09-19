@@ -1,0 +1,31 @@
+{
+  "note": "Hello Friends L1–L3 scripts are content-frozen. Two-week prototype acceptance is L1 only.",
+  "acceptanceThisWeek": "L1_HelloFriends",
+  "levels": [
+    {
+      "levelId": "L1_HelloFriends",
+      "title": "Hello, Friends!",
+      "status": "shipped",
+      "scene": "HelloFriends",
+      "reservedHotspots": ["hit_bunny", "hit_tree", "hit_rock", "hit_ball", "drop_fox"],
+      "reservedVocab": ["hi", "bye", "come_play", "friend"],
+      "wrapUpClipIds": ["bye_required_bunny", "bye_required_fox"]
+    },
+    {
+      "levelId": "L2_FriendMeYou",
+      "title": "Friend, Me, You",
+      "status": "stub",
+      "scene": null,
+      "reservedHotspots": ["hit_friend", "hit_me", "hit_you"],
+      "reservedVocab": ["friend", "me", "you"]
+    },
+    {
+      "levelId": "L3_HappySad",
+      "title": "Happy / Sad",
+      "status": "stub",
+      "scene": null,
+      "reservedHotspots": ["hit_happy", "hit_sad"],
+      "reservedVocab": ["happy", "sad"]
+    }
+  ]
+}
