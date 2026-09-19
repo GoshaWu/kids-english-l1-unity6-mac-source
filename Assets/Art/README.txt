@@ -9,3 +9,4 @@ anims: anim_bunny_wave, anim_wave_bunny, anim_fox_wave, anim_fox_catch
 
 Overwrite Assets/Art/{id}.png then run Kids English → First Open Setup.
 Addressable address = Art/{key}
+
