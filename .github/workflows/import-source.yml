@@ -14,25 +14,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Download archive and replace tree
+      - name: Decode archive and replace tree
         run: |
           set -euo pipefail
           EXPECT=43c4d872a8842c433d6277398080c2d0ddf940303a1ec7e1d9c0ea6cc0b5053e
-          ok=0
-          for url in \
-            "https://litter.catbox.moe/j1vlu9.gz" \
-            "https://n.uguu.se/ZXkWmzdR.tar.gz"; do
-            echo "trying $url"
-            if curl -fsSL --retry 3 --retry-delay 2 "$url" -o /tmp/unity-src.tar.gz; then
-              got=$(sha256sum /tmp/unity-src.tar.gz | awk '{print $1}')
-              echo "got $got"
-              if [ "$got" = "$EXPECT" ]; then
-                ok=1
-                break
-              fi
-            fi
-          done
-          test "$ok" = 1
+          if [ -f tools/_import/part_00.b64 ]; then
+            cat tools/_import/part_*.b64 | base64 -d > /tmp/unity-src.tar.gz
+          elif [ -f tools/_import/p000.b64 ]; then
+            cat tools/_import/p*.b64 | base64 -d > /tmp/unity-src.tar.gz
+          else
+            echo "No import payload yet; skipping"
+            exit 0
+          fi
+          got=$(sha256sum /tmp/unity-src.tar.gz | awk '{print $1}')
+          echo "archive sha256 $got"
+          test "$got" = "$EXPECT"
           python3 - <<'PY'
           import tarfile, pathlib
           root = pathlib.Path("imported")
