@@ -1,43 +1,34 @@
-# HelloFriends L1 — Unity 6000.6.1f1 Mac source
+# Hello, Friends! — Kids English (Unity 2D)
 
-Use branch **`cursor/unity6-mac-ready-567e`** of the Unity project. Gameplay is frozen (hi / friend / come / play + Hi! / Come play!; Bye! required, not assessed).
-
-## Download the source zip
-
-Direct zip (verified, no Library/Temp/Obj/Logs):
-
-**https://litter.catbox.moe/ip8lv9.zip**
-
-Save as `KidsEnglishL1-Unity6000.6.1f1-source.zip`.
-
-This host keeps the file for **72 hours** from 2026-09-19. After that, recreate it from the Unity project with `./tools/pack_source_zip.sh`.
-
-## On the Mac
+Clone this repo, then open the folder that contains `Assets/`, `Packages/`, and `ProjectSettings/` in **Unity 6000.6.1f1**.
 
 ```bash
-mkdir -p ~/Projects
-cd ~/Projects
-curl -L -o KidsEnglishL1-Unity6000.6.1f1-source.zip https://litter.catbox.moe/ip8lv9.zip
-unzip KidsEnglishL1-Unity6000.6.1f1-source.zip
-mv KidsEnglishL1-Unity6000.6.1f1-source KidsEnglishL1
+gh repo clone GoshaWu/kids-english-l1-unity6-mac-source ~/Projects/KidsEnglishL1
 ```
 
-`~/Projects/KidsEnglishL1` must contain `Assets/`, `Packages/`, and `ProjectSettings/`.
+`ProjectSettings/ProjectVersion.txt` is **6000.6.1f1** (`7efac9f6c10e`). L1 gameplay is frozen. See [docs/MAC_UNITY6.md](docs/MAC_UNITY6.md).
 
-1. Unity Hub → Open that folder with **6000.6.1f1** (Apple Silicon + MacStandaloneSupport Mono).
+---
+
+引导式英语启蒙 prototype for ages **4–6**. First playable slice is **L1_HelloFriends**: listen and tap Bunny for “Hi”, drag the ball to Fox for “Come play!”, then optional speak-along. Not a quiz. Speak-along is a **local mic + scoring stub** only (`blockProgress=false`).
+
+This repository is **Unity 6 ready**. Play Mode and the macOS `.app` were **not** run in the Linux cloud VM (no Unity Editor there). Open it on a Mac with **6000.6.1f1** and follow [docs/MAC_UNITY6.md](docs/MAC_UNITY6.md).
+
+## Unity version
+
+| | After |
+| --- | --- |
+| Editor | **Unity 6** `6000.6.1f1` (`7efac9f6c10e`) |
+| URP 2D | **17.6.0** |
+| Addressables | **2.11.2** |
+| UI | **uGUI 2.0.0** |
+| Scripting backend (Standalone) | **Mono** |
+
+## Open / Play / Build
+
+1. Hub → Open this folder with **6000.6.1f1** (Apple Silicon + MacStandaloneSupport Mono).
 2. **Kids English → First Open Setup**
 3. Play `Bootstrap` or **Kids English → Open HelloFriends Scene**
-4. **Kids English → Build macOS Development** or:
-
-```bash
-UNITY="/Applications/Unity/Hub/Editor/6000.6.1f1/Unity.app/Contents/MacOS/Unity"
-PROJECT="$HOME/Projects/KidsEnglishL1"
-
-"$UNITY" -batchmode -nographics \
-  -projectPath "$PROJECT" \
-  -buildTarget OSXUniversal \
-  -executeMethod KidsEnglish.Editor.MacDevBuild.Build \
-  -logFile -
-```
+4. **Kids English → Build macOS Development** or `-executeMethod KidsEnglish.Editor.MacDevBuild.Build`
 
 Output: `Builds/macOS/KidsEnglishL1.app` (unsigned, Mono).
