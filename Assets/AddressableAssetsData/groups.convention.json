@@ -1,0 +1,102 @@
+{
+  "note": "Human-readable Addressables grouping. Run Kids English/First Open Setup in Unity to materialize groups. Content keys are locked — do not alias hi/bye/friend.",
+  "unit": "unit1",
+  "vocabKeys": ["hi", "bye", "friend", "me", "you", "happy", "sad", "play", "name", "come"],
+  "patternKeys": ["hi_bye", "come_play"],
+  "addressConvention": {
+    "audio": "Audio/{key}",
+    "art": "Art/{key}",
+    "assetPaths": {
+      "audio": "Assets/Audio/{key}.wav",
+      "art": "Assets/Art/{key}.png"
+    }
+  },
+  "groups": [
+    {
+      "name": "Audio_Vocab",
+      "entries": [
+        { "key": "Audio/hi", "path": "Assets/Audio/hi.wav" },
+        { "key": "Audio/bye", "path": "Assets/Audio/bye.wav" },
+        { "key": "Audio/friend", "path": "Assets/Audio/friend.wav" },
+        { "key": "Audio/me", "path": "Assets/Audio/me.wav" },
+        { "key": "Audio/you", "path": "Assets/Audio/you.wav" },
+        { "key": "Audio/happy", "path": "Assets/Audio/happy.wav" },
+        { "key": "Audio/sad", "path": "Assets/Audio/sad.wav" },
+        { "key": "Audio/play", "path": "Assets/Audio/play.wav" },
+        { "key": "Audio/name", "path": "Assets/Audio/name.wav" },
+        { "key": "Audio/come", "path": "Assets/Audio/come.wav" }
+      ]
+    },
+    {
+      "name": "Audio_Pattern",
+      "entries": [
+        { "key": "Audio/hi_bye", "path": "Assets/Audio/hi_bye.wav" },
+        { "key": "Audio/come_play", "path": "Assets/Audio/come_play.wav" }
+      ]
+    },
+    {
+      "name": "Audio_L1",
+      "entries": [
+        { "key": "Audio/vo_who_says_hi", "path": "Assets/Audio/vo_who_says_hi.wav" },
+        { "key": "Audio/vo_come_play_hint", "path": "Assets/Audio/vo_come_play_hint.wav" },
+        { "key": "Audio/vo_hi_speak", "path": "Assets/Audio/vo_hi_speak.wav" },
+        { "key": "Audio/vo_bye_expose", "path": "Assets/Audio/vo_bye_expose.wav" }
+      ]
+    },
+    {
+      "name": "Art_Vocab",
+      "entries": [
+        { "key": "Art/hi", "path": "Assets/Art/hi.png" },
+        { "key": "Art/bye", "path": "Assets/Art/bye.png" },
+        { "key": "Art/friend", "path": "Assets/Art/friend.png" },
+        { "key": "Art/me", "path": "Assets/Art/me.png" },
+        { "key": "Art/you", "path": "Assets/Art/you.png" },
+        { "key": "Art/happy", "path": "Assets/Art/happy.png" },
+        { "key": "Art/sad", "path": "Assets/Art/sad.png" },
+        { "key": "Art/play", "path": "Assets/Art/play.png" },
+        { "key": "Art/name", "path": "Assets/Art/name.png" },
+        { "key": "Art/come", "path": "Assets/Art/come.png" }
+      ]
+    },
+    {
+      "name": "Art_Pattern",
+      "entries": [
+        { "key": "Art/hi_bye", "path": "Assets/Art/hi_bye.png" },
+        { "key": "Art/come_play", "path": "Assets/Art/come_play.png" }
+      ]
+    },
+    {
+      "name": "Art_Scene",
+      "entries": [
+        { "key": "Art/bg_park_gate", "path": "Assets/Art/bg_park_gate.png" },
+        { "key": "Art/char_bunny", "path": "Assets/Art/char_bunny.png" },
+        { "key": "Art/char_fox", "path": "Assets/Art/char_fox.png" },
+        { "key": "Art/prop_tree", "path": "Assets/Art/prop_tree.png" },
+        { "key": "Art/prop_rock", "path": "Assets/Art/prop_rock.png" },
+        { "key": "Art/prop_ball", "path": "Assets/Art/prop_ball.png" },
+        { "key": "Art/drop_fox", "path": "Assets/Art/drop_fox.png" },
+        { "key": "Art/anim_bunny_wave", "path": "Assets/Art/anim_bunny_wave.png" },
+        { "key": "Art/anim_wave_bunny", "path": "Assets/Art/anim_wave_bunny.png" },
+        { "key": "Art/anim_fox_wave", "path": "Assets/Art/anim_fox_wave.png" },
+        { "key": "Art/anim_fox_catch", "path": "Assets/Art/anim_fox_catch.png" }
+      ]
+    },
+    {
+      "name": "Audio_Sfx",
+      "entries": [
+        { "key": "sfx_success", "path": "Assets/Audio/Sfx/sfx_success.wav" },
+        { "key": "sfx_retry", "path": "Assets/Audio/Sfx/sfx_retry.wav" },
+        { "key": "sfx_star", "path": "Assets/Audio/Sfx/sfx_star.wav" },
+        { "key": "sfx_wrong_soft", "path": "Assets/Audio/Sfx/sfx_wrong_soft.wav" }
+      ]
+    },
+    {
+      "name": "Levels",
+      "entries": [
+        { "key": "L1_HelloFriends", "path": "Assets/Scenes/HelloFriends.unity" },
+        { "key": "L2_FriendMeYou", "path": "Assets/Addressables/Levels/L2_FriendMeYou/ (stub — no gameplay this week)" },
+        { "key": "L3_HappySad", "path": "Assets/Addressables/Levels/L3_HappySad/ (stub — no gameplay this week)" }
+      ]
+    }
+  ]
+}
