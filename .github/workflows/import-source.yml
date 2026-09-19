@@ -1,0 +1,49 @@
+name: Import Unity source archive
+on:
+  push:
+    paths:
+      - "tools/_import/**"
+      - ".github/workflows/import-source.yml"
+  workflow_dispatch:
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Decode archive and replace tree
+        run: |
+          set -euo pipefail
+          if [ ! -f tools/_import/part_00.b64 ]; then
+            echo "No import payload; nothing to do"
+            exit 0
+          fi
+          cat tools/_import/part_*.b64 | base64 -d > /tmp/unity-src.tar.gz
+          echo "archive sha256 $(sha256sum /tmp/unity-src.tar.gz)"
+          python3 - <<'PY'
+          import tarfile, pathlib
+          root = pathlib.Path("imported")
+          root.mkdir()
+          with tarfile.open("/tmp/unity-src.tar.gz", "r:gz") as tf:
+              tf.extractall(root)
+          print("extracted", sum(1 for p in root.rglob("*") if p.is_file()), "files")
+          PY
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            imported/ ./
+          rm -rf imported tools/_import
+          rm -f _probe_fileurl.txt
+          rm -f .github/workflows/import-source.yml
+          git config user.name "GoshaWu"
+          git config user.email "goshawu1024@gmail.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Import full Unity 6 source tree from archive"
+            git push
+          fi
