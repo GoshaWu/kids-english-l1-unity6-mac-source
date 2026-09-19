@@ -17,14 +17,21 @@ jobs:
       - name: Decode archive and replace tree
         run: |
           EXPECT=43c4d872a8842c433d6277398080c2d0ddf940303a1ec7e1d9c0ea6cc0b5053e
-          if [ ! -f tools/_import/p000.b64 ] || [ ! -f tools/_import/p112.b64 ]; then
+          src=""
+          if [ -f tools/_import/pack_00.b64 ] && [ -f tools/_import/pack_22.b64 ]; then
+            echo "Using pack_*.b64"
+            cat tools/_import/pack_*.b64 | base64 -d > /tmp/unity-src.tar.gz || src=fail
+          elif [ -f tools/_import/p000.b64 ] && [ -f tools/_import/p112.b64 ]; then
+            echo "Using p*.b64"
+            cat tools/_import/p*.b64 | base64 -d > /tmp/unity-src.tar.gz || src=fail
+          else
             echo "Parts incomplete ($(ls tools/_import 2>/dev/null | wc -l) files); skipping"
             exit 0
           fi
-          cat tools/_import/p*.b64 | base64 -d > /tmp/unity-src.tar.gz || {
-            echo "base64 decode failed; skipping"
+          if [ "$src" = fail ] || [ ! -s /tmp/unity-src.tar.gz ]; then
+            echo "decode failed; skipping"
             exit 0
-          }
+          fi
           got=$(sha256sum /tmp/unity-src.tar.gz | awk '{print $1}')
           echo "archive sha256 $got"
           if [ "$got" != "$EXPECT" ]; then
