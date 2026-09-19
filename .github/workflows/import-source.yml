@@ -14,54 +14,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Fetch archive and replace tree
+      - name: Decode archive and replace tree
         run: |
-          set -euo pipefail
           EXPECT=43c4d872a8842c433d6277398080c2d0ddf940303a1ec7e1d9c0ea6cc0b5053e
-          UA='Mozilla/5.0 (compatible; UnitySourceImport/1.0; +https://github.com/GoshaWu/kids-english-l1-unity6-mac-source)'
-          got=""
-          try_url() {
-            local url="$1"
-            echo "TRY $url"
-            rm -f /tmp/unity-src.tar.gz
-            if curl -fL --retry 3 --retry-delay 2 --max-time 90 -A "$UA" -o /tmp/unity-src.tar.gz "$url"; then
-              got=$(sha256sum /tmp/unity-src.tar.gz | awk '{print $1}')
-              echo "downloaded sha256 $got size $(wc -c < /tmp/unity-src.tar.gz)"
-              if [ "$got" = "$EXPECT" ]; then
-                return 0
-              fi
-            fi
-            return 1
-          }
-          fetched=0
-          if try_url "https://h.uguu.se/EENZmgrc.tar.gz"; then
-            fetched=1
-          fi
-          if [ "$fetched" != 1 ] && [ -f tools/_import/p000.b64 ] && [ -f tools/_import/p112.b64 ]; then
-            echo "Using in-repo base64 parts"
-            cat tools/_import/p*.b64 | base64 -d > /tmp/unity-src.tar.gz
-            got=$(sha256sum /tmp/unity-src.tar.gz | awk '{print $1}')
-            echo "archive sha256 $got"
-            if [ "$got" = "$EXPECT" ]; then
-              fetched=1
-            fi
-          fi
-          if [ "$fetched" != 1 ]; then
-            echo "No complete verified archive yet; skipping import"
+          if [ ! -f tools/_import/p000.b64 ] || [ ! -f tools/_import/p112.b64 ]; then
+            echo "Parts incomplete ($(ls tools/_import 2>/dev/null | wc -l) files); skipping"
             exit 0
           fi
-          python3 - <<'PY'
-          import tarfile, pathlib
-          root = pathlib.Path("imported")
-          root.mkdir(exist_ok=True)
-          with tarfile.open("/tmp/unity-src.tar.gz", "r:gz") as tf:
-              tf.extractall(root)
-          print("extracted", sum(1 for p in root.rglob("*") if p.is_file()), "files")
-          PY
-          rsync -a --delete \
-            --exclude '.git' \
-            --exclude '.github' \
-            imported/ ./
+          cat tools/_import/p*.b64 | base64 -d > /tmp/unity-src.tar.gz || {
+            echo "base64 decode failed; skipping"
+            exit 0
+          }
+          got=$(sha256sum /tmp/unity-src.tar.gz | awk '{print $1}')
+          echo "archive sha256 $got"
+          if [ "$got" != "$EXPECT" ]; then
+            echo "hash mismatch; skipping"
+            exit 0
+          fi
+          python3 -c 'import tarfile,pathlib; root=pathlib.Path("imported"); root.mkdir(exist_ok=True); tarfile.open("/tmp/unity-src.tar.gz","r:gz").extractall(root); print("extracted", sum(1 for p in root.rglob("*") if p.is_file()), "files")'
+          rsync -a --delete --exclude '.git' --exclude '.github' imported/ ./
           rm -rf imported tools/_import
           rm -f _probe_fileurl.txt
           rm -f .github/workflows/import-source.yml
