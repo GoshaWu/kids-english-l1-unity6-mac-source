@@ -134,7 +134,7 @@ namespace KidsEnglish.EditorTools
         [MenuItem("Kids English/Open HelloFriends Scene")]
         public static void OpenHelloFriends()
         {
-            EditorSceneManagement.OpenScene("Assets/Scenes/HelloFriends.unity");
+            EditorSceneManager.OpenScene("Assets/Scenes/HelloFriends.unity");
         }
 
         [MenuItem("Kids English/Create SpeakFeedback Prefab")]
